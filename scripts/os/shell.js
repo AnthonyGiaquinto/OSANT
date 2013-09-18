@@ -79,6 +79,36 @@ function shellInit() {
     sc.description = "<string> - Sets the prompt.";
     sc.function = shellPrompt;
     this.commandList[this.commandList.length] = sc;
+    
+    // date
+    sc = new ShellCommand();
+    sc.command = "date";
+    sc.description = "- Displays the current date and time.";
+    sc.function = shellDate;
+    this.commandList[this.commandList.length] = sc;
+    
+    // whereami
+    sc = new ShellCommand();
+    sc.command = "whereami";
+    sc.description = "- Displays your current location.";
+    sc.function = shellWhereAmI;
+    this.commandList[this.commandList.length] = sc;
+    
+    // TODO: Add an interesting and creative command.
+    
+    // BSOD
+    sc = new ShellCommand();
+    sc.command = "bsodtest";
+    sc.description = "- Displays the BSOD message.";
+    sc.function = shellBSOD;
+    this.commandList[this.commandList.length] = sc;
+    
+    // load
+    sc = new ShellCommand();
+    sc.command = "load";
+    sc.description = "- Checks the User Program Input for an error.";
+    sc.function = shellLoad;
+    this.commandList[this.commandList.length] = sc;
 
     // processes - list the running processes and their IDs
     // kill <id> - kills the specified process id.
@@ -91,6 +121,7 @@ function shellInit() {
 function shellPutPrompt()
 {
     _StdIn.putText(this.promptStr);
+    console.log(_ConsoleTextHistory);
 }
 
 function shellHandleInput(buffer)
@@ -227,53 +258,73 @@ function UserCommand()
 //
 function shellInvalidCommand()
 {
+	var result = "";
     _StdIn.putText("Invalid Command. ");
     if (_SarcasticMode)
     {
-        _StdIn.putText("Duh. Go back to your Speak & Spell.");
+    	result = "Duh. Go back to your Speak & Spell.";
+        _StdIn.putText(result);
+        _ConsoleTextHistory.push("Invalid Command. " + result);
     }
     else
     {
-        _StdIn.putText("Type 'help' for, well... help.");
+    	result = "Type 'help' for, well... help.";
+        _StdIn.putText(result);
+        _ConsoleTextHistory.push("Invalid Command. " + result);
     }
 }
 
 function shellCurse()
 {
     _StdIn.putText("Oh, so that's how it's going to be, eh? Fine.");
+    _ConsoleTextHistory.push("Oh, so that's how it's going to be, eh? Fine.");
     _StdIn.advanceLine();
     _StdIn.putText("Bitch.");
+    _ConsoleTextHistory.push("Bitch.");
     _SarcasticMode = true;
 }
 
 function shellApology()
 {
+   var result = "";
    if (_SarcasticMode) {
-      _StdIn.putText("Okay. I forgive you. This time.");
+      result = "Okay. I forgive you. This time.";
+      _StdIn.putText(result);
+      _ConsoleTextHistory.push(result);
       _SarcasticMode = false;
    } else {
-      _StdIn.putText("For what?");
+      result = "For what?";
+      _StdIn.putText(result);
+      _ConsoleTextHistory.push(result);
    }
 }
 
 function shellVer(args)
 {
-    _StdIn.putText(APP_NAME + " version " + APP_VERSION);    
+	var result = APP_NAME + " Version " + APP_VERSION;
+    _StdIn.putText(result);
+    _ConsoleTextHistory.push(result);
 }
 
 function shellHelp(args)
 {
+	var result = "";
     _StdIn.putText("Commands:");
+    _ConsoleTextHistory.push("Commands:");
     for (var i in _OsShell.commandList)
     {
         _StdIn.advanceLine();
-        _StdIn.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
+        result = "  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description;
+        _StdIn.putText(result);
+        _ConsoleTextHistory.push(result);
     }    
 }
 
 function shellShutdown(args)
 {
-     _StdIn.putText("Shutting down...");
+	var result = "Shutting down...";
+     _StdIn.putText(result);
+     _ConsoleTextHistory.push(result);
      // Call Kernel shutdown routine.
     krnShutdown();   
     // TODO: Stop the final prompt from being displayed.  If possible.  Not a high priority.  (Damn OCD!)
@@ -287,26 +338,30 @@ function shellCls(args)
 
 function shellMan(args)
 {
+	var result = "";
     if (args.length > 0)
     {
         var topic = args[0];
         switch (topic)
         {
             case "help": 
-                _StdIn.putText("Help displays a list of (hopefully) valid commands.");
+            	result = "Help displays a list of (hopefully) valid commands.";
                 break;
             default:
-                _StdIn.putText("No manual entry for " + args[0] + ".");
+            	result = "No manual entry for " + args[0] + ".";
         }        
     }
     else
     {
-        _StdIn.putText("Usage: man <topic>  Please supply a topic.");
+    	result = "Usage: man <topic>  Please supply a topic.";
     }
+    _StdIn.putText(result);
+    _ConsoleTextHistory.push(result);
 }
 
 function shellTrace(args)
 {
+	var result = "";
     if (args.length > 0)
     {
         var setting = args[0];
@@ -315,39 +370,44 @@ function shellTrace(args)
             case "on": 
                 if (_Trace && _SarcasticMode)
                 {
-                    _StdIn.putText("Trace is already on, dumbass.");
+                	result = "Trace is already on, dumbass.";
                 }
                 else
                 {
                     _Trace = true;
-                    _StdIn.putText("Trace ON");
+                    result = "Trace ON";
                 }
                 
                 break;
             case "off": 
                 _Trace = false;
-                _StdIn.putText("Trace OFF");                
+                result = "Trace OFF";
                 break;                
             default:
-                _StdIn.putText("Invalid arguement.  Usage: trace <on | off>.");
+            	result = "Invalid arguement.  Usage: trace <on | off>.";
         }        
     }
     else
     {
-        _StdIn.putText("Usage: trace <on | off>");
+    	result = "Usage: trace <on | off>";
     }
+    _StdIn.putText(result);
+    _ConsoleTextHistory.push(result);
 }
 
 function shellRot13(args)
 {
+	var result = "";
     if (args.length > 0)
     {
-        _StdIn.putText(args[0] + " = '" + rot13(args[0]) +"'");     // Requires Utils.js for rot13() function.
+    	result = args[0] + " = '" + rot13(args[0]) +"'";   // Requires Utils.js for rot13() function.
     }
     else
     {
-        _StdIn.putText("Usage: rot13 <string>  Please supply a string.");
+    	result = "Usage: rot13 <string>  Please supply a string.";
     }
+    _StdIn.putText(result);
+    _ConsoleTextHistory.push(result);
 }
 
 function shellPrompt(args)
@@ -358,6 +418,70 @@ function shellPrompt(args)
     }
     else
     {
-        _StdIn.putText("Usage: prompt <string>  Please supply a string.");
+    	var result = "Usage: prompt <string>  Please supply a string.";
+        _StdIn.putText(result);
+        _ConsoleTextHistory.push(result);
     }
+}
+
+function shellDate()
+{
+	// Determines date using the date object
+	var date = new Date();
+	//date.setTime(date.getTime());
+	var month = date.getMonth()+1;
+	var day = date.getDate();
+	var year = date.getFullYear();
+	var minutes = date.getMinutes();
+	var hour = date.getHours();
+	var day_or_night;
+	
+	if (minutes < 10)
+	{
+		minutes = "0" + minutes;
+	}
+	if (hour === 0)
+	{
+		hour = 12;
+		day_or_night = "AM";
+	}
+	else if (hour <= 11)
+	{
+		day_or_night = "AM";
+	}
+	else if (hour >= 13)
+	{
+		hour -= 12;
+		day_or_night = "PM";
+	}
+	if (hour < 10)
+	{
+		hour = "0" + hour;
+	}
+	
+	var result = "It is currently " + hour + ":" + minutes + " " + day_or_night + 
+	               " on "  + month + "/" + day + "/" + year + ".";
+	_StdIn.putText(result);
+    _ConsoleTextHistory.push(result);
+}
+
+function shellWhereAmI()
+{
+    var result = "You are sitting down in front of your computer somewhere on Earth.";
+	_StdIn.putText(result);
+	_ConsoleTextHistory.push(result);
+}
+
+function shellBSOD()
+{
+	var result = "The kernel has trapped an OS error. Shutting down...";
+	_StdIn.putText(result);
+	_ConsoleTextHistory.push(result);
+}
+
+function shellLoad()
+{
+    var result = "Still need to implement.";
+	_StdIn.putText(result);
+	_ConsoleTextHistory.push(result);
 }

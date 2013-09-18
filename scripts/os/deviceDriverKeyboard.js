@@ -47,11 +47,110 @@ function krnKbdDispatchKeyPress(params)
         // TODO: Check for caps-lock and handle as shifted if so.
         _KernelInputQueue.enqueue(chr);        
     }    
-    else if ( ((keyCode >= 48) && (keyCode <= 57)) ||   // digits 
-               (keyCode == 32)                     ||   // space
-               (keyCode == 13) )                        // enter
+    else if ( ((keyCode >= 48) && (keyCode <= 57) && !isShifted) ||   // digits 
+               (keyCode == 32)                                   ||   // space
+               (keyCode == 13)                                   ||   // enter
+               (keyCode == 8)                                    ||   // backspace
+               (keyCode == 38)                                   ||   // up arrow
+               (keyCode == 40) )                                      // down arrow
     {
         chr = String.fromCharCode(keyCode);
         _KernelInputQueue.enqueue(chr); 
+    }
+    else if (keyCode >= 48 && keyCode <= 57 && isShifted)   // shifted digits
+    {
+    	switch(keyCode)
+    	{
+    	case 48:
+    		chr = ")";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 49:
+    		chr = "!";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 50:
+    		chr = "@";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 51:
+    		chr = "#";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 52:
+    		chr = "$";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 53:
+    		chr = "%";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 54:
+    		chr = "^";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 55:
+    		chr = "&";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 56:
+    		chr = "*";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        case 57:
+    		chr = "(";
+        	_KernelInputQueue.enqueue(chr);
+        	break;
+        }
+    }
+    else   // Other punctuation characters not already handled
+    {
+    	switch(keyCode)
+    	{
+    	case 192:
+    		chr = isShifted ? "~" : "`";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 173:
+    		chr = isShifted ? "_" : "-";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 61:
+    		chr = isShifted ? "+" : "=";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 219:
+    		chr = isShifted ? "{" : "[";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 221:
+    		chr = isShifted ? "}" : "]";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 220:
+    		chr = isShifted ? "|" : "\\";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 59:
+    		chr = isShifted ? ":" : ";";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 222:
+    		chr = isShifted ? "\"" : "'";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 188:
+    		chr = isShifted ? "<" : ",";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 190:
+    		chr = isShifted ? ">" : ".";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 191:
+    		chr = isShifted ? "?" : "/";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	}
     }
 }

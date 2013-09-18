@@ -11,8 +11,8 @@
 //
 // Global CONSTANTS
 //
-var APP_NAME = "AlanBBOS";  // 'cause I was at a loss for a better name.
-var APP_VERSION = "0.07";   // What did you expect?
+var APP_NAME = "OSANT";  // 'cause I was also at a loss for a better name.
+var APP_VERSION = "1";   // What did you expect?
 
 var CPU_CLOCK_INTERVAL = 100;   // This is in ms, or milliseconds, so 1000 = 1 second.
 
@@ -51,6 +51,7 @@ var _StdOut = null;
 // UI
 var _Console = null;
 var _OsShell = null;
+var _ConsoleTextHistory = new Array(); // An array that stores all lines of text to help scroll
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;
