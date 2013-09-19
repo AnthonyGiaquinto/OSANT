@@ -109,6 +109,13 @@ function shellInit() {
     sc.description = "- Checks the User Program Input for an error.";
     sc.function = shellLoad;
     this.commandList[this.commandList.length] = sc;
+    
+    // status
+    sc = new ShellCommand();
+    sc.command = "status";
+    sc.description = "<string> - Changes the status on the task bar to \n<string>.";
+    sc.function = shellStatus;
+    this.commandList[this.commandList.length] = sc;
 
     // processes - list the running processes and their IDs
     // kill <id> - kills the specified process id.
@@ -428,50 +435,19 @@ function shellPrompt(args)
 
 function shellDate()
 {
-	// Determines date using the date object
-	var date = new Date();
-	//date.setTime(date.getTime());
-	var month = date.getMonth()+1;
-	var day = date.getDate();
-	var year = date.getFullYear();
-	var minutes = date.getMinutes();
-	var hour = date.getHours();
-	var day_or_night;
-	
-	if (minutes < 10)
-	{
-		minutes = "0" + minutes;
-	}
-	if (hour === 0)
-	{
-		hour = 12;
-		day_or_night = "AM";
-	}
-	else if (hour <= 11)
-	{
-		day_or_night = "AM";
-	}
-	else if (hour >= 13)
-	{
-		hour -= 12;
-		day_or_night = "PM";
-	}
-	if (hour < 10)
-	{
-		hour = "0" + hour;
-	}
-	
-	var result = "It is currently " + hour + ":" + minutes + " " + day_or_night + 
-	               " on "  + month + "/" + day + "/" + year + ".";
+	var time = getTime();
+	var result = "It is currently " + time[0] + ":" + time[1] + " " + time[2] + 
+	               " on "  + time[3] + "/" + time[4] + "/" + time[5] + ".";
 	_StdIn.putText(result);
     _ConsoleTextHistory.push(result);
 }
 
 function shellWhereAmI()
 {
-    var result = "You are sitting down in front of your computer somewhere on Earth.";
-	_StdIn.putText(result);
-	_ConsoleTextHistory.push(result);
+	_StdIn.putText("My sources tell me that you're sitting in a chair");
+	_StdIn.putText("looking at a computer. Don't ask how I know..");
+	_ConsoleTextHistory.push("My sources tell me that you're sitting in a chair");
+	_ConsoleTextHistory.push("looking at a computer. Don't ask how I know..");
 }
 
 function shellBSOD()
@@ -495,6 +471,22 @@ function shellLoad()
 	else
 	{
 		result = "This is not a valid Op Code.";
+	}
+	_StdIn.putText(result);
+	_ConsoleTextHistory.push(result);
+}
+
+function shellStatus(args)
+{
+	var result = "";
+	if (args.length > 0)
+	{
+		statusUpdate(args[0]);
+		result = "Status updated.";
+	}
+	else
+	{
+		result = "Status not updated. You must include a string.";
 	}
 	_StdIn.putText(result);
 	_ConsoleTextHistory.push(result);

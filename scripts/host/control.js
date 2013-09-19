@@ -21,20 +21,23 @@
 //
 function hostInit()
 {
-	// Get a global reference to the canvas.  TODO: Move this stuff into a Display Device Driver, maybe?
+	// Get a global reference to the canvases.  TODO: Move this stuff into a Display Device Driver, maybe?
 	_Canvas  = document.getElementById('display');
+	_TaskBar = document.getElementById('taskbar');
 
 	// Get a global reference to the drawing context.
 	_DrawingContext = _Canvas.getContext('2d');
+	_TaskBarContext = _TaskBar.getContext('2d');
 
 	// Enable the added-in canvas text functions (see canvastext.js for provenance and details).
 	CanvasTextFunctions.enable(_DrawingContext);   // TODO: Text functionality is now built in to the HTML5 canvas. Consider using that instead.
+	CanvasTextFunctions.enable(_TaskBarContext);
 
 	// Clear the log text box.
 	document.getElementById("taLog").value="";
 
 	// Set focus on the start button.
-   document.getElementById("btnStartOS").focus();
+    document.getElementById("btnStartOS").focus();
 
    // Check for our testing and enrichment core.
    if (typeof Glados === "function") {
@@ -85,11 +88,15 @@ function hostBtnStartOS_click(btn)
     // ... Create and initialize the CPU ...
     _CPU = new Cpu();
     _CPU.init();
-
+    
     // ... then set the host clock pulse ...
     _hardwareClockID = setInterval(hostClockPulse, CPU_CLOCK_INTERVAL);
     // .. and call the OS Kernel Bootstrap routine.
     krnBootstrap();
+    
+    // Set Task Bar Clock Pulse. Resets clock every thirty seconds.
+    _TaskBarInterValID = setInterval(runClock, 15000);
+    runClock(); // Get the clock started before the first thirty seconds
 }
 
 function hostBtnHaltOS_click(btn)
@@ -100,6 +107,7 @@ function hostBtnHaltOS_click(btn)
     krnShutdown();
     // Stop the JavaScript interval that's simulating our clock pulse.
     clearInterval(_hardwareClockID);
+    clearInterval(_TaskBarInterValID);
     // TODO: Is there anything else we need to do here?
 }
 

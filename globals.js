@@ -28,10 +28,15 @@ var _CPU = null;
 
 var _OSclock = 0;       // Page 23.
 
+var _TaskBarInterValID = null // Interval ID for the clock that will run in the task bar.
+
 var _Mode = 0;   // 0 = Kernel Mode, 1 = User Mode.  See page 21.
 
 var _Canvas = null;               // Initialized in hostInit().
 var _DrawingContext = null;       // Initialized in hostInit().
+var _TaskBar = null;              // Initialized in hostInit().
+var _TaskBarContext = null;       // Initialized in hostInit().
+
 var _DefaultFontFamily = "sans";  // Ignored, I think. The was just a place-holder in 2008, but the HTML canvas may have use for it.
 var _DefaultFontSize = 13;
 var _FontHeightMargin = 4;        // Additional space added to font size when advancing a line.

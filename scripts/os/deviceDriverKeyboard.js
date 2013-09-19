@@ -58,7 +58,7 @@ function krnKbdDispatchKeyPress(params)
         chr = String.fromCharCode(keyCode);
         _KernelInputQueue.enqueue(chr); 
     }
-    else if (keyCode >= 48 && keyCode <= 57 && isShifted)   // shifted digits
+    else if ((keyCode >= 48) && (keyCode <= 57) && isShifted)   // shifted digits
     {
     	switch(keyCode)
     	{
@@ -102,6 +102,8 @@ function krnKbdDispatchKeyPress(params)
     		chr = "(";
         	_KernelInputQueue.enqueue(chr);
         	break;
+        default:
+        	krnTrace("Warning: Unhandled keyboard input."); 
         }
     }
     else   // Other punctuation characters not already handled
@@ -156,6 +158,8 @@ function krnKbdDispatchKeyPress(params)
     		chr = isShifted ? "?" : "/";
     		_KernelInputQueue.enqueue(chr);
     		break;
+    	default:
+    		krnTrace("Warning: Unhandled keyboard input."); 
     	}
     }
 }

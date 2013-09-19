@@ -35,3 +35,71 @@ function rot13(str) {   // An easy-to understand implementation of the famous an
     }
     return retVal;
 }
+
+function getTime() {
+	// Determines date using the date object and stores into an array for use
+	var time = [];
+	var date = new Date();
+	var month = date.getMonth()+1;
+	var day = date.getDate();
+	var year = date.getFullYear();
+	var minutes = date.getMinutes();
+	var hour = date.getHours();
+	var day_or_night;
+	
+	if (day < 10)
+	{
+		day = "0" + day;
+	}
+	if (month < 10)
+	{
+		month = "0" + month;
+	}
+	if (minutes < 10)
+	{
+		minutes = "0" + minutes;
+	}
+	if (hour === 0)
+	{
+		hour = 12;
+		day_or_night = "AM";
+	}
+	else if (hour <= 11)
+	{
+		day_or_night = "AM";
+	}
+	else if (hour >= 13)
+	{
+		hour -= 12;
+		day_or_night = "PM";
+	}
+	if (hour < 10)
+	{
+		hour = "0" + hour;
+	}
+	
+	time = [hour, minutes, day_or_night, month, day, year];
+	return time;
+}
+
+// Functions to support the Task Bar's functionality
+function runClock() {  // Calculates the time every 30 seconds and updates the taskbar's clock
+	_TaskBarContext.font = "26px sans-serif";
+	_TaskBarContext.fillStyle="black";
+	_TaskBarContext.clearRect(0, 0, 141, _TaskBar.height);
+	var currentTime = getTime();
+	var timeString = currentTime[0] + ":" + currentTime[1] + " " + currentTime[2];
+	var dateString =  currentTime[3] + "/" + currentTime[4] + "/" + currentTime[5];
+    _TaskBarContext.fillText(timeString, 12, 23);
+    _TaskBarContext.fillText(dateString, 5, 51);
+	_TaskBarContext.rect(138, 0, 2, _TaskBar.height);
+	_TaskBarContext.fillStyle="red";
+	_TaskBarContext.fill(); 
+}
+
+function statusUpdate(msg) {   // Writes a status message on the task bar
+	_TaskBarContext.clearRect(600, 0, _TaskBar.width, _TaskBar.height);
+	_TaskBarContext.font = "italic 30px sans-serif";
+	_TaskBarContext.fillStyle="black";
+	_TaskBarContext.fillText("status: " + msg, 403, 35, 302);
+}
