@@ -98,8 +98,8 @@ function shellInit() {
     
     // BSOD
     sc = new ShellCommand();
-    sc.command = "bsodtest";
-    sc.description = "- Displays the BSOD message.";
+    sc.command = "bluescreen";
+    sc.description = "- Tests the blue screen of death.";
     sc.function = shellBSOD;
     this.commandList[this.commandList.length] = sc;
     
@@ -121,7 +121,6 @@ function shellInit() {
 function shellPutPrompt()
 {
     _StdIn.putText(this.promptStr);
-    console.log(_ConsoleTextHistory);
 }
 
 function shellHandleInput(buffer)
@@ -220,7 +219,10 @@ function shellExecute(fn, args)
         _StdIn.advanceLine();
     }
     // ... and finally write the prompt again.
-    this.putPrompt();
+    if (!_CriticalError)
+    {
+    	this.putPrompt();
+    }
 }
 
 
@@ -474,14 +476,26 @@ function shellWhereAmI()
 
 function shellBSOD()
 {
-	var result = "The kernel has trapped an OS error. Shutting down...";
-	_StdIn.putText(result);
-	_ConsoleTextHistory.push(result);
+	krnTrapError(".. Gotcha! It's only a test!");
 }
 
 function shellLoad()
 {
-    var result = "Still need to implement.";
+	var result = "";
+	var input = document.getElementById("taProgramInput");
+	var text = input.value;
+	text = trim(text);
+	// Must start and end with 2-digit hex values, hex numbers following the first are preceded by spaces.
+	var goodOp = /^[A-F0-9]{2}(?:\s[A-F0-9][A-F0-9])*$/;
+	var isGood = goodOp.test(text);
+	if (isGood)
+	{
+		result = "This is a valid Op Code.";
+	}
+	else
+	{
+		result = "This is not a valid Op Code.";
+	}
 	_StdIn.putText(result);
 	_ConsoleTextHistory.push(result);
 }

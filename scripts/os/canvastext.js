@@ -153,7 +153,14 @@ CanvasTextFunctions.draw = function(ctx,font,size,x,y,str)
     ctx.save();
     ctx.lineCap = "round";
     ctx.lineWidth = 2.0 * mag;
-	ctx.strokeStyle = "black";
+    if (!_CriticalError) 
+    {
+    	ctx.strokeStyle = "black";
+    }
+	else 
+	{
+		ctx.strokeStyle = "white";
+	}
 
     for (var i = 0; i < len; i++) 
 	{

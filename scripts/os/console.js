@@ -13,7 +13,6 @@ function CLIconsole() {
     this.CurrentFontSize  = _DefaultFontSize;
     this.CurrentXPosition = 0;
     this.CurrentYPosition = _DefaultFontSize;
-    this.CurrentYOrigin = 0;   // The origin changes during transformations
     this.buffer = "";
     this.commandHistory = new Array();  // Array containing the commands that were entered
     this.index = -1;   // Index of most recent command or most recent command selected by the arrow keys.
@@ -27,6 +26,14 @@ function CLIconsole() {
 
     this.clearScreen = function() {
        _DrawingContext.clearRect(0, 0, _Canvas.width, _Canvas.height);
+    };
+    
+    this.blueScreen = function() { // Used for the blue screen of death
+       _DrawingContext.fillStyle = "blue";
+       _DrawingContext.fillRect(0, 0, _Canvas.width, _Canvas.height);
+       this.CurrentFontSize += 3;
+       this.resetXY();
+       _CriticalError = true;
     };
     
     this.clearLine = function() {

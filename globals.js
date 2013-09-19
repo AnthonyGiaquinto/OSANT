@@ -36,6 +36,9 @@ var _DefaultFontFamily = "sans";  // Ignored, I think. The was just a place-hold
 var _DefaultFontSize = 13;
 var _FontHeightMargin = 4;        // Additional space added to font size when advancing a line.
 
+// Has a blue screen of death happened?
+var _CriticalError = false;
+
 // Default the OS trace to be on.
 var _Trace = true;
 

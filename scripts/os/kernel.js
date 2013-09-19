@@ -184,8 +184,9 @@ function krnTrace(msg)
    
 function krnTrapError(msg)
 {
+	// Creates a Blue Screen of Death that Displays an error message.
+	_StdIn.blueScreen();
+	_StdIn.putText("OS ERROR - TRAP: " + msg);
     hostLog("OS ERROR - TRAP: " + msg);
-    shellBSOD();
-    // TODO: Display error on console, perhaps in some sort of colored screen. (Perhaps blue?)
     krnShutdown();
 }

@@ -25,6 +25,7 @@ function krnKbdDriverEntry()
     // More?
 }
 
+// Tested on Firefox and Safari
 function krnKbdDispatchKeyPress(params)
 {
     // Parse the params.    TODO: Check that they are valid and osTrapError if not.
@@ -132,6 +133,10 @@ function krnKbdDispatchKeyPress(params)
     		_KernelInputQueue.enqueue(chr);
     		break;
     	case 59:
+    		chr = isShifted ? ":" : ";";
+    		_KernelInputQueue.enqueue(chr);
+    		break;
+    	case 186:
     		chr = isShifted ? ":" : ";";
     		_KernelInputQueue.enqueue(chr);
     		break;
