@@ -25,7 +25,7 @@ function krnKbdDriverEntry()
     // More?
 }
 
-// Tested on Firefox and Safari
+// Tested on Firefox, Safari, and Chrome
 function krnKbdDispatchKeyPress(params)
 {
     // Parse the params.    TODO: Check that they are valid and osTrapError if not.
@@ -90,7 +90,7 @@ function krnKbdDispatchKeyPress(params)
     		chr = "^";
         	_KernelInputQueue.enqueue(chr);
         	break;
-        case 55:
+        case 55: // Error: Chrome recognizes this as the up arrow?
     		chr = "&";
         	_KernelInputQueue.enqueue(chr);
         	break;
@@ -98,7 +98,7 @@ function krnKbdDispatchKeyPress(params)
     		chr = "*";
         	_KernelInputQueue.enqueue(chr);
         	break;
-        case 57:
+        case 57:  // Error: Chrome recognizes this as the down arrow?
     		chr = "(";
         	_KernelInputQueue.enqueue(chr);
         	break;
@@ -114,10 +114,12 @@ function krnKbdDispatchKeyPress(params)
     		chr = isShifted ? "~" : "`";
     		_KernelInputQueue.enqueue(chr);
     		break;
+    	case 189: // for chrome
     	case 173:
     		chr = isShifted ? "_" : "-";
     		_KernelInputQueue.enqueue(chr);
     		break;
+    	case 187: // for chrome
     	case 61:
     		chr = isShifted ? "+" : "=";
     		_KernelInputQueue.enqueue(chr);

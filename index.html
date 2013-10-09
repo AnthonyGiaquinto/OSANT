@@ -70,11 +70,18 @@
               height="500px"
               tabindex="3">
       </canvas>
+      <div id="divTaskBar" style="margin:4px; width: 910px; height:55px;">
+      <canvas id="taskbar"
+              width="910px"
+              height="55px">
+      </canvas>
+   </div>
    </div>
    
 
 
-   <div id="divLog" style="margin-left:520px;">
+   <div id="divLogAndMemory" style="margin-left:520px; width:725px; height:370px; display:block;">
+      <div id="log" style="width:368px; float:left;">
       <label>
          Log
          <br>
@@ -84,9 +91,370 @@
                    cols="48"
          ></textarea>
       </label>
+      </div>
+      <label>
+         Memory Display
+      </label>
+      <div id="memory" style="width:352px; float:right;">
+         <table id="memoryTable" border = 1>
+         	<tr>
+         		<th>$000</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$008</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$010</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$018</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$020</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$028</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$030</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$038</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$040</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$048</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$050</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$058</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$060</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$068</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$070</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$078</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$080</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$088</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$090</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$098</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0A0</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0A8</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0B0</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0B8</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0C0</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0C8</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0D0</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0D8</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0E0</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0E8</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0F0</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         	<tr>
+         		<th>$0F8</th>
+         		<td>&nbsp;</td>
+        		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         		<td>&nbsp;</td>
+         	</tr>
+         </table>
+         </div>
    </div>
 
-   <div id="divUserProgramInput" style="margin-left:520px;">
+   <div id="divUserProgramInputAndCPU" style="margin-left:520px; width:725px; display:block;">
+      <div id="divUserProgramInput" style="width:368px; float:left;">
       <label>
          User Program Input
          <br>
@@ -96,14 +464,31 @@
                    cols="48"
          ></textarea>
       </label>
+      </div>
+      <label>
+         CPU
+      </label>
+      <div id="divCPU" style="border: 2px solid red; width:352px; float:right;">
+         <table id="cpuTable" border=1>
+            <tr>
+               <th>PC</th>
+               <th>ACC</th>
+               <th>X</th>
+               <th>Y</th>
+               <th>Z</th>
+            </tr>
+            <tr>
+               <td>&nbsp;</td>
+               <td>&nbsp;</td>
+               <td>&nbsp;</td>
+               <td>&nbsp;</td>
+               <td>&nbsp;</td>
+            </tr>
+         </table>
+      </div>
    </div>
    
-   <div id="divTaskBar" style="margin:4px; width: 910px; height:55px;">
-      <canvas id="taskbar"
-              width="910px"
-              height="55px">
-      </canvas>
-   </div>
+   
 </div>
 
 <!--<p class="footerText" style="clear:both;">

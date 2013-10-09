@@ -42,6 +42,25 @@ h3 {
 	cursor: default;
 }
 
+#memory {
+	height: 344px;
+	width: 350px;
+	border: 2px solid red;
+	overflow: scroll;
+}
+
+#memoryTable {
+	height: 300px;
+	width: 350px;
+	background-color:#DFDBC3;
+	overflow: scroll;
+}
+
+#cpuTable {
+    background-color:#DFDBC3;
+    width: 350px;
+    height: 100px;
+}
 .normal_button {
 	width: 100px;
 }

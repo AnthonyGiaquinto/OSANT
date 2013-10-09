@@ -41,7 +41,7 @@ function shellInit() {
     // shutdown
     sc = new ShellCommand();
     sc.command = "shutdown";
-    sc.description = "- Shuts down the virtual OS but leaves the underlying hardware simulation running.";
+    sc.description = "- Shuts down the virtual OS.";
     sc.function = shellShutdown;
     this.commandList[this.commandList.length] = sc;
 
@@ -93,8 +93,8 @@ function shellInit() {
     sc.description = "- Displays your current location.";
     sc.function = shellWhereAmI;
     this.commandList[this.commandList.length] = sc;
-    
-    // TODO: Add an interesting and creative command.
+        
+    // :Interesting and Creative Command
     
     // BSOD
     sc = new ShellCommand();
@@ -113,8 +113,15 @@ function shellInit() {
     // status
     sc = new ShellCommand();
     sc.command = "status";
-    sc.description = "<string> - Changes the status on the task bar to \n<string>.";
+    sc.description = "<string> - Updates the status on the task bar.";
     sc.function = shellStatus;
+    this.commandList[this.commandList.length] = sc;
+    
+    // run <pid> - runs a program already in memory
+    sc = new ShellCommand();
+    sc.command = "run";
+    sc.description = "<PID> - Runs a program already in memory.";
+    sc.function = shellRun;
     this.commandList[this.commandList.length] = sc;
 
     // processes - list the running processes and their IDs
@@ -490,4 +497,10 @@ function shellStatus(args)
 	}
 	_StdIn.putText(result);
 	_ConsoleTextHistory.push(result);
+}
+
+function shellRun(args)
+{
+	_StdIn.putText("Not developed yet.");
+	_ConsoleTextHistory.push("Not developed yet.");
 }

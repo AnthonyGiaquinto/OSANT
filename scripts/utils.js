@@ -101,5 +101,5 @@ function statusUpdate(msg) {   // Writes a status message on the task bar
 	_TaskBarContext.clearRect(600, 0, _TaskBar.width, _TaskBar.height);
 	_TaskBarContext.font = "italic 30px sans-serif";
 	_TaskBarContext.fillStyle="black";
-	_TaskBarContext.fillText("status: " + msg, 403, 35, 302);
+	_TaskBarContext.fillText("Status: " + msg, 403, 35, 302);
 }
