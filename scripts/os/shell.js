@@ -196,17 +196,14 @@ function shellParseInput(buffer)
     // 1. Remove leading and trailing spaces.
     buffer = trim(buffer);
 
-    // 2. Lower-case it.
-    buffer = buffer.toLowerCase();
-
-    // 3. Separate on spaces so we can determine the command and command-line args, if any.
+    // 2. Separate on spaces so we can determine the command and command-line args, if any.
     var tempList = buffer.split(" ");
 
-    // 4. Take the first (zeroth) element and use that as the command.
-    var cmd = tempList.shift();  // Yes, you can do that to an array in JavaScript.  See the Queue class.
-    // 4.1 Remove any left-over spaces.
+    // 3. Take the first (zeroth) element and use that as the command.
+    var cmd = tempList.shift().toLowerCase();  // Yes, you can do that to an array in JavaScript.  See the Queue class.
+    // 3.1 Remove any left-over spaces.
     cmd = trim(cmd);
-    // 4.2 Record it in the return value.
+    // 3.2 Record it in the return value.
     retVal.command = cmd;
 
     // 5. Now create the args array from what's left.
@@ -466,18 +463,28 @@ function shellLoad()
 {
 	var result = "";
 	var input = document.getElementById("taProgramInput");
-	var text = input.value;
-	text = trim(text);
+	var program = input.value;
+	program = trim(program);
 	// Must start and end with 2-digit hex values, hex numbers following the first are preceded by spaces.
 	var goodOp = /^[A-F0-9]{2}(?:\s[A-F0-9][A-F0-9])*$/;
-	var isGood = goodOp.test(text);
+	var isGood = goodOp.test(program);
 	if (isGood)
 	{
-		result = "This is a valid Op Code.";
+		// Cannot load if there is already a program loaded in memory.
+		if (_PID > 0)
+		{
+			result = "Cannot load, memory is full. Must Restart.";
+		}
+		else
+		{
+			loadProgram(program);
+			result = "Program loaded into memory. PID: " + _PID;
+			_PID++;
+		}
 	}
 	else
 	{
-		result = "This is not a valid Op Code.";
+		result = "Op Code contains non-hex. Try again.";
 	}
 	_StdIn.putText(result);
 	_ConsoleTextHistory.push(result);

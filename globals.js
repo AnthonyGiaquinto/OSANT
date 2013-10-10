@@ -25,7 +25,11 @@ var KEYBOARD_IRQ = 1;
 // Global Variables
 //
 var _CPU = null;
+var _Memory = null;
+var _ProgramList = new Array(); // List of loaded programs ready for execution
 
+var _MemorySize = 256;  // Total Memory Size
+var _PID = 0;           // Variable to keep track of current PID
 var _OSclock = 0;       // Page 23.
 
 var _TaskBarInterValID = null // Interval ID for the clock that will run in the task bar.

@@ -82,8 +82,8 @@ function getTime() {
 	return time;
 }
 
-// Functions to support the Task Bar's functionality
-function runClock() {  // Calculates the time every 30 seconds and updates the taskbar's clock
+// Calculates the time every 30 seconds and updates the taskbar's clock
+function runClock() { 
 	_TaskBarContext.font = "26px sans-serif";
 	_TaskBarContext.fillStyle="black";
 	_TaskBarContext.clearRect(0, 0, 141, _TaskBar.height);
@@ -97,9 +97,36 @@ function runClock() {  // Calculates the time every 30 seconds and updates the t
 	_TaskBarContext.fill(); 
 }
 
-function statusUpdate(msg) {   // Writes a status message on the task bar
+// Writes a status message on the task bar
+function statusUpdate(msg) {
 	_TaskBarContext.clearRect(600, 0, _TaskBar.width, _TaskBar.height);
 	_TaskBarContext.font = "italic 30px sans-serif";
 	_TaskBarContext.fillStyle="black";
 	_TaskBarContext.fillText("Status: " + msg, 403, 35, 302);
+}
+
+// Updates Memory Display
+function updateMemoryDisplay()
+{
+	var memoryTable = document.getElementById("memoryTable");
+	var count = 0; // Represents index of Memory thats being inserted into table
+	
+	for (var i = 0; i < 32; i++) // 32 Represents the number of rows
+	{
+		for (var j = 1; j < 9; j++)
+		{
+			memoryTable.rows[i].cells[j].innerHTML = _Memory.coreMemory[count++];
+		}
+	}
+}
+
+// Updates CPU Display
+function updateCPUDisplay()
+{
+	var cpuTable = document.getElementById("cpuTable");
+	cpuTable.rows[1].cells[0].innerHTML = _CPU.PC;
+	cpuTable.rows[1].cells[1].innerHTML = _CPU.Acc;
+	cpuTable.rows[1].cells[2].innerHTML = _CPU.Xreg;
+	cpuTable.rows[1].cells[3].innerHTML = _CPU.Yreg;
+	cpuTable.rows[1].cells[4].innerHTML = _CPU.Zflag;
 }

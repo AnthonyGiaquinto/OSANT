@@ -15,11 +15,14 @@
    <script type="text/javascript" src="scripts/host/control.js"></script>
    <script type="text/javascript" src="scripts/host/devices.js"></script>
    <script type="text/javascript" src="scripts/host/cpu.js"></script>
+   <script type="text/javascript" src="scripts/host/memory.js"></script>
 
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
    <script type="text/javascript" src="scripts/os/interrupt.js"></script>
    <script type="text/javascript" src="scripts/os/canvastext.js"></script>	
-   <script type="text/javascript" src="scripts/os/console.js"></script>	
+   <script type="text/javascript" src="scripts/os/console.js"></script>
+   <script type="text/javascript" src="scripts/os/memoryManager.js"></script>
+   <script type="text/javascript" src="scripts/os/processControl.js"></script>	
    <script type="text/javascript" src="scripts/os/deviceDriver.js"></script>
    <script type="text/javascript" src="scripts/os/deviceDriverKeyboard.js"></script>
    <script type="text/javascript" src="scripts/os/queue.js"></script>
@@ -95,7 +98,7 @@
       <label>
          Memory Display
       </label>
-      <div id="memory" style="width:352px; float:right;">
+      <div id="memory" style="text-align: center; width:352px; float:right;">
          <table id="memoryTable" border = 1>
          	<tr>
          		<th>$000</th>
@@ -468,7 +471,7 @@
       <label>
          CPU
       </label>
-      <div id="divCPU" style="border: 2px solid red; width:352px; float:right;">
+      <div id="divCPU" style="text-align: center; border: 2px solid red; width:352px; float:right;">
          <table id="cpuTable" border=1>
             <tr>
                <th>PC</th>
