@@ -477,9 +477,9 @@ function shellLoad()
 		}
 		else
 		{
-			loadProgram(program);
+			loadProgram(program); // processControl.js
 			result = "Program loaded into memory. PID: " + _PID;
-			_PID++;
+			//_PID++;
 		}
 	}
 	else
@@ -508,6 +508,14 @@ function shellStatus(args)
 
 function shellRun(args)
 {
-	_StdIn.putText("Not developed yet.");
-	_ConsoleTextHistory.push("Not developed yet.");
+	if (args.length > 0 && args[0] == "0")
+	{
+		_CPU.isExecuting = true;
+	}
+
+	else
+	{
+		_StdIn.putText("Not a valid PID.");
+		_ConsoleTextHistory.push("Not a valid PID.");
+	}
 }

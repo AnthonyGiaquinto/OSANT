@@ -33,8 +33,11 @@ function Cpu() {
     this.cycle = function() {
         krnTrace("CPU cycle");
         
-        // TODO: Accumulate CPU usage and profiling statistics here.
-        // Do the real work here. Be sure to set this.isExecuting appropriately.
+        // Executes current instruction
+        if (this.PC == 72)
+        {var a = "yerp";}
+        this.execute(getData(this.PC));
+        updateCPUDisplay();
     };
     
     this.execute = function(opCode) {
@@ -92,16 +95,33 @@ function Cpu() {
 // Load the accumulator with a constant
 function loadAccWithConstant()
 {
+	// Loads the decimal value of the next byte in memory
+	// Must increment PC twice
+	var data = getData(++_CPU.PC);
+	_CPU.Acc = parseInt(data, 16);
+	_CPU.PC++;
 }
 
 // Load the accumulator from memory
 function loadAccFromMemory()
 {
+	var suffix = getData(++_CPU.PC);
+	var prefix = getData(++_CPU.PC);
+	var address = parseInt(prefix + "" + suffix, 16);
+	_CPU.Acc = parseInt(getData(address), 16);
+	_CPU.PC++;
 }
 
 // Store the accumulator in memory
 function storeAccInMemory()
 {
+	var suffix = getData(++_CPU.PC);
+	var prefix = getData(++_CPU.PC);
+	var address = parseInt(prefix + "" + suffix, 16);
+	
+	setLocation(address, _CPU.Acc.toString(16).toUpperCase());
+	_CPU.PC++;
+	// TODO: Check if valid address
 }
 
 // Adds contents of an address to 
@@ -109,52 +129,120 @@ function storeAccInMemory()
 // keeps the result in the accuculator 
 function addWithCarry()
 {
+	var suffix = getData(++_CPU.PC);
+	var prefix = getData(++_CPU.PC);
+	var address = parseInt(prefix + "" + suffix, 16);
+	
+	_CPU.Acc += parseInt(getData(address), 16);
+	_CPU.PC++;
 }
 
 // Load the X register with a constant
 function loadXWithConstant()
 {
+	_CPU.Xreg = parseInt(getData(++_CPU.PC), 16);
+	_CPU.PC++;
 }
 
 // Load the X register from memory
 function loadXFromMemory()
 {
+	var suffix = getData(++_CPU.PC);
+	var prefix = getData(++_CPU.PC);
+	var address = parseInt(prefix + "" + suffix, 16);
+	_CPU.Xreg = parseInt(getData(address), 16);
+	_CPU.PC++;
 }
 
 // Load the Y register with a constant
 function loadYWithConstant()
 {
+	_CPU.Yreg = parseInt(getData(++_CPU.PC), 16);
+	_CPU.PC++;
 }
 
 // Load the Y register from memory
 function loadYFromMemory()
 {
+	var suffix = getData(++_CPU.PC);
+	var prefix = getData(++_CPU.PC);
+	var address = parseInt(prefix + "" + suffix, 16);
+	_CPU.Yreg = parseInt(getData(address), 16);
+	_CPU.PC++;
 }
 
 // No Operation
 function noOperation()
 {
+	_CPU.PC++;
 }
 
 // Break
 function systemBreak()
 {
+	_CPU.isExecuting = false;
+	_StdIn.putText("Process finished.");
+	_ConsoleTextHistory.push("Process finished");
+	_StdIn.advanceLine();
+	_OsShell.putPrompt();
 }
 
 // Compare a byte in memory to the X reg
-// Sets the Z flag if equal
+// Sets the Z flag to 1 if equal
 function compareToX()
 {
+	var suffix = getData(++_CPU.PC);
+	var prefix = getData(++_CPU.PC);
+	var address = parseInt(prefix + "" + suffix, 16);
+	
+	var memoryValue = parseInt(getData(address), 16);
+	if (memoryValue === _CPU.Xreg)
+	{
+		_CPU.Zflag = 1;
+	}
+	else
+	{
+		_CPU.Zflag = 0;
+	}
+	
+	_CPU.PC++;
 }
 
 // Branch X bytes if Z flag = 0
 function branchXBytes()
 {
+	// Obtain the branch value and move the program counter accordingly.
+	if (_CPU.Zflag === 0)
+	{
+		var branch = parseInt(getData(++_CPU.PC), 16);
+		_CPU.PC += branch;
+		
+		// Are we passed the memory limit?
+		if (_CPU.PC > 255)
+		{
+			_CPU.PC -= 256;
+		}
+			
+		_CPU.PC++;
+	}
+	else
+	{
+		// Skip the operand
+		_CPU.PC += 2;
+	}
 }
 
 // Increment the value of a byte
 function incrementByte()
 {
+	var suffix = getData(++_CPU.PC);
+	var prefix = getData(++_CPU.PC);
+	var address = parseInt(prefix + "" + suffix, 16);
+	
+	var byteValue = parseInt(getData(address), 16);
+	byteValue++;
+	setLocation(address, byteValue.toString(16).toUpperCase());
+	_CPU.PC++;
 }
 
 // System Call
@@ -162,4 +250,30 @@ function incrementByte()
 // #$02 in X reg = print the 00-terminated string stored at the address in the Y register.
 function systemCall()
 {
+	if (_CPU.Xreg === 1)
+	{
+		_StdIn.putText(_CPU.Yreg.toString());
+		_ConsoleTextHistory.push(_CPU.Yreg);
+		_StdIn.advanceLine();
+		_OsShell.putPrompt();
+	}
+	else if (_CPU.Xreg === 2)
+	{
+		var adress = _CPU.Yreg;     // Current adress that is being converted into a char
+		var data = getData(adress)  // 
+		var code = 0;               // Integer that will be decoded into a character
+		var str = "";               // String of all chars that are retrieved
+		
+		while (data != "00")
+		{
+			code = parseInt(data, 16);
+			str += String.fromCharCode(code);
+			data = getData(++adress);
+		}
+		_StdIn.putText(str);
+		_ConsoleTextHistory.push(str);
+		_StdIn.advanceLine();
+		_OsShell.putPrompt();
+	}
+	_CPU.PC++;
 }
