@@ -23,11 +23,13 @@ function ProcessControlBlock()
 	   this.base = _PartitionSize * 2 + 2;
 	   this.limit = _MemorySize - 1;
 	}
+	this.state = _NEW;
 	this.pc = 0;
 	this.acc = 0;
 	this.x = 0;
 	this.y = 0;
 	this.z = 0;
+	
 }
 
 
@@ -45,7 +47,10 @@ function loadProgram(program)
 		}
 		count++;
 	}
+	pcb.state = _READY;
 	// Update the list of loaded programs and the memory display
 	_ProgramList[pcb.pid] = opCodes;
+	_ReadyQueue[pcb.pid] = pcb;
 	updateMemoryDisplay();
+	updateReadyQueueDisplay(pcb.pid);
 }

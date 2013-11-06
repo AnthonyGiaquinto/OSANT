@@ -27,10 +27,19 @@ var KEYBOARD_IRQ = 1;
 var _CPU = null;
 var _Memory = null;
 var _ProgramList = new Array(); // List of loaded programs ready for execution
+var _ReadyQueue = new Array(); // List of PCB's
 
 var _MemorySize = 768;   // Total Memory Size
 var _PartitionSize = 255 // Memory Partition Size
 var _PID = 0;            // Variable to keep track of current PID
+
+// Process States
+var _NEW = "New";
+var _READY = "Ready";
+var _RUNNING = "Running";
+var _WAITING = "Waiting";
+var _TERMINATED = "Terminated";
+
 var _OSclock = 0;        // Page 23.
 
 var _TaskBarInterValID = null // Interval ID for the clock that will run in the task bar.

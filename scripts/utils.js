@@ -130,3 +130,39 @@ function updateCPUDisplay()
 	cpuTable.rows[1].cells[3].innerHTML = _CPU.Yreg;
 	cpuTable.rows[1].cells[4].innerHTML = _CPU.Zflag;
 }
+ 
+// Updates Ready Queue Display
+function updateReadyQueueDisplay(pid)
+{
+	var readyQueueTable = document.getElementById("readyQueueTable");
+	if (pid === 0)
+	{
+	   readyQueueTable.rows[1].cells[0].innerHTML = _ReadyQueue[0].pid;
+	   readyQueueTable.rows[1].cells[1].innerHTML = _ReadyQueue[0].state;
+	   readyQueueTable.rows[1].cells[2].innerHTML = _ReadyQueue[0].pc;
+	   readyQueueTable.rows[1].cells[3].innerHTML = _ReadyQueue[0].acc;
+	   readyQueueTable.rows[1].cells[4].innerHTML = _ReadyQueue[0].x;
+	   readyQueueTable.rows[1].cells[5].innerHTML = _ReadyQueue[0].y;
+	   readyQueueTable.rows[1].cells[6].innerHTML = _ReadyQueue[0].z;
+	}
+	else if (pid === 1)
+	{
+	   readyQueueTable.rows[2].cells[0].innerHTML = _ReadyQueue[1].pid;
+	   readyQueueTable.rows[2].cells[1].innerHTML = _ReadyQueue[1].state;
+	   readyQueueTable.rows[2].cells[2].innerHTML = _ReadyQueue[1].pc;
+	   readyQueueTable.rows[2].cells[3].innerHTML = _ReadyQueue[1].acc;
+	   readyQueueTable.rows[2].cells[4].innerHTML = _ReadyQueue[1].x;
+	   readyQueueTable.rows[2].cells[5].innerHTML = _ReadyQueue[1].y;
+	   readyQueueTable.rows[2].cells[6].innerHTML = _ReadyQueue[1].z;
+	}
+	else if (pid === 2)
+	{
+	   readyQueueTable.rows[3].cells[0].innerHTML = _ReadyQueue[2].pid;
+	   readyQueueTable.rows[3].cells[1].innerHTML = _ReadyQueue[2].state;
+	   readyQueueTable.rows[3].cells[2].innerHTML = _ReadyQueue[2].pc;
+	   readyQueueTable.rows[3].cells[3].innerHTML = _ReadyQueue[2].acc;
+	   readyQueueTable.rows[3].cells[4].innerHTML = _ReadyQueue[2].x;
+	   readyQueueTable.rows[3].cells[5].innerHTML = _ReadyQueue[2].y;
+	   readyQueueTable.rows[3].cells[6].innerHTML = _ReadyQueue[2].z;
+	}
+}
