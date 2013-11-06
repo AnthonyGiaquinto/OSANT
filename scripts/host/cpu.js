@@ -34,8 +34,6 @@ function Cpu() {
         krnTrace("CPU cycle");
         
         // Executes current instruction
-        if (this.PC == 72)
-        {var a = "yerp";}
         this.execute(getData(this.PC));
         updateCPUDisplay();
     };

@@ -7,9 +7,22 @@
 function ProcessControlBlock()
 {
 	this.pid = _PID;
-	this.base = 0;
-	this.limit = 255;
-	
+	// Sets the Base and Limit based on the current PID which takes up one partition each
+	if (this.pid === 0)
+	{
+	   this.base = 0;
+	   this.limit = _PartitionSize;
+	}
+	else if (this.pid === 1)
+	{
+	   this.base = _PartitionSize + 1;
+	   this.limit = _PartitionSize * 2 + 1;
+	}
+	else if (this.pid === 2)
+	{
+	   this.base = _PartitionSize * 2 + 2;
+	   this.limit = _MemorySize - 1;
+	}
 	this.pc = 0;
 	this.acc = 0;
 	this.x = 0;
@@ -21,14 +34,18 @@ function ProcessControlBlock()
 function loadProgram(program)
 {
 	// Creates a new PCB and stores the program contents into the array of loaded programs
-	var pcb = new ProcessControlBlock();	
-	
+	var pcb = new ProcessControlBlock();
 	var opCodes = program.split(" ");
-	for (var i = pcb.base; i < opCodes.length; i++)
+	var count = 0;
+	for (var i = pcb.base; i < pcb.limit; i++)
 	{
-		setLocation(i, opCodes[i]); // memoryManager.js
+		if (count < opCodes.length)
+		{
+		   setLocation(i, opCodes[count]); // memoryManager.js
+		}
+		count++;
 	}
 	// Update the list of loaded programs and the memory display
-	_ProgramList[_PID] = opCodes;
+	_ProgramList[pcb.pid] = opCodes;
 	updateMemoryDisplay();
 }

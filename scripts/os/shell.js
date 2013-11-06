@@ -470,16 +470,15 @@ function shellLoad()
 	var isGood = goodOp.test(program);
 	if (isGood)
 	{
-		// Cannot load if there is already a program loaded in memory.
+		// Cannot load if there are already 3 programs loaded in memory.
 		if (_PID > 2)
 		{
-			result = "Cannot load, memory is full. Must Restart.";
+			result = "Cannot load, memory is full.";
 		}
 		else
 		{
 			loadProgram(program); // processControl.js
-			result = "Program loaded into memory. PID: " + _PID;
-			_PID++;
+			result = "Program loaded into memory. PID: " + _PID++;
 		}
 	}
 	else
