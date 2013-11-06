@@ -5,7 +5,7 @@
 
 function CpuScheduler()
 {
-	this.cycle = 0;  // Current cycle of process
+	this.cycle = 1;  // Current cycle of process
 	this.currentProcess = null; // Current Running Process
 	
 	this.contextSwitch = function()
@@ -22,6 +22,8 @@ function CpuScheduler()
 		            this.currentProcess.x,
 		            this.currentProcess.y,
 		            this.currentProcess.z);
+		this.currentProcess.state = _RUNNING;
 		this.cycle = 1;
+		updateReadyQueueDisplay();
 	}
 }

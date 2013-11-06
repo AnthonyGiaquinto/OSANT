@@ -49,6 +49,7 @@ function Cpu() {
         this.execute(getData(this.PC));
         _CpuScheduler.cycle++;
         updateCPUDisplay();
+        updateReadyQueueDisplay();
     };
     
     this.execute = function(opCode) {
@@ -119,7 +120,14 @@ function loadAccFromMemory()
 	var suffix = getData(++_CPU.PC);
 	var prefix = getData(++_CPU.PC);
 	var address = parseInt(prefix + "" + suffix, 16);
-	_CPU.Acc = parseInt(getData(address), 16);
+	if (inBounds(address))
+	{
+		_CPU.Acc = parseInt(getData(address), 16);
+	}
+	else
+	{
+		krnTrapError("Address not in bounds.");
+	}
 	_CPU.PC++;
 }
 
@@ -129,10 +137,15 @@ function storeAccInMemory()
 	var suffix = getData(++_CPU.PC);
 	var prefix = getData(++_CPU.PC);
 	var address = parseInt(prefix + "" + suffix, 16);
-	
-	setLocation(address, _CPU.Acc.toString(16).toUpperCase());
+	if (inBounds(address))
+	{
+		setLocation(_CpuScheduler.currentProcess.base + address, _CPU.Acc.toString(16).toUpperCase());
+	}
+	else
+	{
+		krnTrapError("Address not in bounds.");
+	}
 	_CPU.PC++;
-	// TODO: Check if valid address
 }
 
 // Adds contents of an address to 
@@ -143,8 +156,14 @@ function addWithCarry()
 	var suffix = getData(++_CPU.PC);
 	var prefix = getData(++_CPU.PC);
 	var address = parseInt(prefix + "" + suffix, 16);
-	
-	_CPU.Acc += parseInt(getData(address), 16);
+	if (inBounds(address))
+	{
+		_CPU.Acc += parseInt(getData(address), 16);
+	}
+	else
+	{
+		krnTrapError("Address not in bounds.");
+	}
 	_CPU.PC++;
 }
 
@@ -161,7 +180,14 @@ function loadXFromMemory()
 	var suffix = getData(++_CPU.PC);
 	var prefix = getData(++_CPU.PC);
 	var address = parseInt(prefix + "" + suffix, 16);
-	_CPU.Xreg = parseInt(getData(address), 16);
+	if (inBounds(address))
+	{
+		_CPU.Xreg = parseInt(getData(address), 16);
+	}
+	else
+	{
+		krnTrapError("Address not in bounds.");
+	}
 	_CPU.PC++;
 }
 
@@ -178,7 +204,14 @@ function loadYFromMemory()
 	var suffix = getData(++_CPU.PC);
 	var prefix = getData(++_CPU.PC);
 	var address = parseInt(prefix + "" + suffix, 16);
-	_CPU.Yreg = parseInt(getData(address), 16);
+	if (inBounds(address))
+	{
+		_CPU.Yreg = parseInt(getData(address), 16);
+	}
+	else
+	{
+		krnTrapError("Address not in bounds.");
+	}
 	_CPU.PC++;
 }
 
@@ -191,9 +224,18 @@ function noOperation()
 // Break
 function systemBreak()
 {
-	_CpuScheduler.currentProcess.update(_TERMINATED, _CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
-	if (_ReadyQueue
-	_CPU.isExecuting = false;
+	// Updates the process to being terminated
+	_CpuScheduler.currentProcess.update(_TERMINATED, _CPU.PC, _CPU.Acc, 
+	                                    _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
+	// If there are more processes to execute, then context switch                                   
+	if (_ReadyQueue.getSize() > 0)
+	{
+		_CpuScheduler.contextSwitch();
+	}
+	else // Otherwise, stop executing
+	{
+		_CPU.isExecuting = false;
+	}
 	_StdIn.putText("Process finished.");
 	_ConsoleTextHistory.push("Process finished");
 	_StdIn.advanceLine();
@@ -208,16 +250,22 @@ function compareToX()
 	var prefix = getData(++_CPU.PC);
 	var address = parseInt(prefix + "" + suffix, 16);
 	
-	var memoryValue = parseInt(getData(address), 16);
-	if (memoryValue === _CPU.Xreg)
+	if (inBounds(address))
 	{
-		_CPU.Zflag = 1;
+		var memoryValue = parseInt(getData(address), 16);
+		if (memoryValue === _CPU.Xreg)
+		{
+			_CPU.Zflag = 1;
+		}
+		else
+		{
+			_CPU.Zflag = 0;
+		}
 	}
 	else
 	{
-		_CPU.Zflag = 0;
+		krnTrapError("Address not in bounds.");
 	}
-	
 	_CPU.PC++;
 }
 
@@ -231,9 +279,9 @@ function branchXBytes()
 		_CPU.PC += branch;
 		
 		// Are we passed the memory limit?
-		if (_CPU.PC > 255)
+		if (_CPU.PC > _PartitionSize)
 		{
-			_CPU.PC -= 256;
+			_CPU.PC -= (_PartitionSize + 1);
 		}
 			
 		_CPU.PC++;
@@ -252,9 +300,13 @@ function incrementByte()
 	var prefix = getData(++_CPU.PC);
 	var address = parseInt(prefix + "" + suffix, 16);
 	
-	var byteValue = parseInt(getData(address), 16);
-	byteValue++;
-	setLocation(address, byteValue.toString(16).toUpperCase());
+	if (inBounds(address))
+	{
+		var byteValue = parseInt(getData(address), 16);
+		byteValue++;
+		setLocation(_CpuScheduler.currentProcess.base + address, byteValue.toString(16).toUpperCase());
+	}
+	
 	_CPU.PC++;
 }
 

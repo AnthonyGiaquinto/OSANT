@@ -92,7 +92,8 @@ function hostBtnStartOS_click(btn)
     // Create and initialize memory
     _Memory = new Memory();
     
-    // Create and initialize CPU Scheduler
+    // Create and initialize the ready queue and CPU Scheduler
+    _ReadyQueue = new Queue();
     _CpuScheduler = new CpuScheduler();
     
     // ... then set the host clock pulse ...

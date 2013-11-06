@@ -541,7 +541,14 @@ function shellRun(args)
 	{
 	   // Add process to ready queue then begin executing
 	   _ReadyQueue.enqueue(_ResidentList[pid]);
-	   _CpuScheduler.currentProcess = _ReadyQueue[0];
+	   _CpuScheduler.currentProcess = _ReadyQueue.dequeue();
+	   // Make sure to update the CPU contents with the process about to run
+	   _CPU.update(_CpuScheduler.currentProcess.pc, 
+	               _CpuScheduler.currentProcess.acc, 
+	               _CpuScheduler.currentProcess.x, 
+	               _CpuScheduler.currentProcess.y, 
+	               _CpuScheduler.currentProcess.z)
+	   _CpuScheduler.currentProcess.state = _RUNNING;
 	   _CPU.isExecuting = true;
 	}
 }
@@ -574,18 +581,30 @@ function shellRunAll()
 	}
 	else
 	{
-		for (pcb in _ResidentList)
+		for (var i = 0; i < _ResidentList.length; i++)
 		{
-			_ReadyQueue.enqueue(pcb);
+			_ReadyQueue.enqueue(_ResidentList[i]);
 		}
 		// Puts the first process in the ready queue as the active process then starts
-		_CpuScheduler.currentProcess = _ReadyQueue[0];
+		_CpuScheduler.currentProcess = _ReadyQueue.dequeue();
+		_CpuScheduler.currentProcess.state = _RUNNING;
+		updateReadyQueueDisplay();
 		_CPU.isExecuting = true;
 	}
 }
 
 function shellKill(args)
 {
+	var pid = parseInt(args[0]);
+	for (var i = 0; i < _ReadyQueue.getSize(); i++)
+	{
+		if (_ReadyQueue.q[i].pid === pid)
+		{
+			delete _ReadyQueue.q[i];
+			_StdIn.putText("Process " + pid + " deleted.");
+			_ConsoleTextHistory.push("Process " + pid + " deleted.");
+		}
+	}
 }
 
 function shellQuantum(args)

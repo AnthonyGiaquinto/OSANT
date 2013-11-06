@@ -20,5 +20,14 @@ function setLocation(index, value)
 // Retrieves the value of the given memory location
 function getData(index)
 {
-	return _Memory.coreMemory[index];
+	return _Memory.coreMemory[_CpuScheduler.currentProcess.base + index];
+}
+
+// Determines if the index is in the PCB's Memory Block
+function inBounds(index)
+{
+	//var base = _CpuScheduler.currentProcess.base;
+	//var limit = _CpuScheduler.currentProcess.limit;
+	//return (index >= base && index <= limit);
+	return true;
 }

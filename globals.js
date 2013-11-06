@@ -32,7 +32,7 @@ var _TERMINATED = "Terminated"; //
 var _CPU = null;
 var _Memory = null;
 var _ResidentList = new Array(); // List of loaded processes
-var _ReadyQueue = new Queue(); // Queue of running processes
+var _ReadyQueue = null; // Queue of running processes
 
 var _MemorySize = 768;   // Total Memory Size
 var _PartitionSize = 255 // Memory Partition Size
