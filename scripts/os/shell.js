@@ -471,7 +471,7 @@ function shellLoad()
 	if (isGood)
 	{
 		// Cannot load if there is already a program loaded in memory.
-		if (_PID > 0)
+		if (_PID > 2)
 		{
 			result = "Cannot load, memory is full. Must Restart.";
 		}
@@ -479,7 +479,7 @@ function shellLoad()
 		{
 			loadProgram(program); // processControl.js
 			result = "Program loaded into memory. PID: " + _PID;
-			//_PID++;
+			_PID++;
 		}
 	}
 	else

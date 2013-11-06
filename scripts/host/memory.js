@@ -8,7 +8,7 @@ function Memory()
 {
 	// Initialize memory array
 	this.coreMemory = new Array();
-	// Memory size is 256
+	// Memory size is 768
 	for (var i = 0; i < _MemorySize; i++)
 	{
 		this.coreMemory[i] = "00";

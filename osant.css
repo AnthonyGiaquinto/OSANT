@@ -61,6 +61,13 @@ h3 {
     width: 350px;
     height: 100px;
 }
+
+#readyQueueTable {
+    background-color:#DFDBC3;
+    width: 350px;
+    height: 100px;
+}
+
 .normal_button {
 	width: 100px;
 }

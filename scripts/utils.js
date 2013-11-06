@@ -111,7 +111,7 @@ function updateMemoryDisplay()
 	var memoryTable = document.getElementById("memoryTable");
 	var count = 0; // Represents index of Memory thats being inserted into table
 	
-	for (var i = 0; i < 32; i++) // 32 Represents the number of rows
+	for (var i = 0; i < 96; i++) // 96 Represents the number of rows
 	{
 		for (var j = 1; j < 9; j++)
 		{
