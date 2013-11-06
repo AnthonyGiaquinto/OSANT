@@ -106,7 +106,7 @@ function shellInit() {
     // load
     sc = new ShellCommand();
     sc.command = "load";
-    sc.description = "- Checks the User Program Input for an error.";
+    sc.description = "- Loads the user program into memory.";
     sc.function = shellLoad;
     this.commandList[this.commandList.length] = sc;
     
@@ -125,9 +125,33 @@ function shellInit() {
     this.commandList[this.commandList.length] = sc;
 
     // processes - list the running processes and their IDs
+    sc = new ShellCommand();
+    sc.command = "processes";
+    sc.description = "- Lists the running processes' IDs.";
+    sc.function = shellProcesses;
+    this.commandList[this.commandList.length] = sc;
+    
     // kill <id> - kills the specified process id.
+    sc = new ShellCommand();
+    sc.command = "kill";
+    sc.description = "<PID> - Kills the active process given its PID.";
+    sc.function = shellKill;
+    this.commandList[this.commandList.length] = sc;
 
-    //
+    // runall - runs all the ready processes
+    sc = new ShellCommand();
+    sc.command = "runall";
+    sc.description = "- Executes all programs at once.";
+    sc.function = shellRunAll;
+    this.commandList[this.commandList.length] = sc;
+    
+    // quantum <int> - sets the Round Robin Quantum
+    sc = new ShellCommand();
+    sc.command = "quantum";
+    sc.description = "<int> - Sets the round robin quantum.";
+    sc.function = shellQuantum;
+    this.commandList[this.commandList.length] = sc;
+    
     // Display the initial prompt.
     this.putPrompt();
 }
@@ -507,14 +531,67 @@ function shellStatus(args)
 
 function shellRun(args)
 {
-	if (args.length > 0 && args[0] == "0")
-	{
-		_CPU.isExecuting = true;
-	}
-
-	else
+	var pid = parseInt(args[0]);
+	if (!_ResidentList[pid])
 	{
 		_StdIn.putText("Not a valid PID.");
 		_ConsoleTextHistory.push("Not a valid PID.");
 	}
+	else
+	{
+	   // Add process to ready queue then begin executing
+	   _ReadyQueue.enqueue(_ResidentList[pid]);
+	   _CpuScheduler.currentProcess = _ReadyQueue[0];
+	   _CPU.isExecuting = true;
+	}
+}
+
+function shellProcesses()
+{
+	// If no active processes in the Ready Queue, don't display
+	if (!_ReadyQueue.length)
+	{
+		_StdIn.putText("No active Processes.");
+		_ConsoleTextHistory.push("No active Processes.");
+	}
+	// Display the PID's of the Active Processes
+	else
+	{
+		for (var i = 0; i < _ReadyQueue.length; i++)
+		{
+			_StdIn.putText("Process " + _ReadyQueue[i].pid);
+			_ConsoleTextHistory.push("Process " + _ReadyQueue[i].pid);
+		}
+	}
+}
+
+function shellRunAll()
+{
+	if (!_ResidentList)
+	{
+		_StdIn.putText("No processes to run.");
+		_ConsoleTextHistory.push("No processes to run.");
+	}
+	else
+	{
+		for (pcb in _ResidentList)
+		{
+			_ReadyQueue.enqueue(pcb);
+		}
+		// Puts the first process in the ready queue as the active process then starts
+		_CpuScheduler.currentProcess = _ReadyQueue[0];
+		_CPU.isExecuting = true;
+	}
+}
+
+function shellKill(args)
+{
+}
+
+function shellQuantum(args)
+{
+	var quantum = parseInt(args[0]);
+	_Quantum = quantum;
+	_StdIn.putText("Round Robin Quantum set to " + _Quantum);
+	_ConsoleTextHistory.push("Round Robin Quantum set to " + _Quantum);
 }

@@ -20,25 +20,27 @@ var TIMER_IRQ = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt prio
                     // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 var KEYBOARD_IRQ = 1;  
 
+var _NEW = "New";               //
+var _READY = "Ready";           //
+var _RUNNING = "Running";       // Process States
+var _WAITING = "Waiting";       //
+var _TERMINATED = "Terminated"; //
 
 //
 // Global Variables
 //
 var _CPU = null;
 var _Memory = null;
-var _ProgramList = new Array(); // List of loaded programs ready for execution
-var _ReadyQueue = new Array(); // List of PCB's
+var _ResidentList = new Array(); // List of loaded processes
+var _ReadyQueue = new Queue(); // Queue of running processes
 
 var _MemorySize = 768;   // Total Memory Size
 var _PartitionSize = 255 // Memory Partition Size
 var _PID = 0;            // Variable to keep track of current PID
 
-// Process States
-var _NEW = "New";
-var _READY = "Ready";
-var _RUNNING = "Running";
-var _WAITING = "Waiting";
-var _TERMINATED = "Terminated";
+var _CpuScheduler = null; // CPU Scheduler Initialized on start button
+var _Quantum = 6; // Round Robin Quantum. Default is 6.
+
 
 var _OSclock = 0;        // Page 23.
 

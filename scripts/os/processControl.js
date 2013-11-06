@@ -30,6 +30,15 @@ function ProcessControlBlock()
 	this.y = 0;
 	this.z = 0;
 	
+	this.update = function(state, pc, acc, x, y, z) // Updates the state of the process
+	{                                               // Used for Context Switches
+	   this.state = state;
+	   this.pc = pc;
+	   this.acc = acc;
+	   this.x = x;
+	   this.y = y;
+	   this.z = z;
+	}
 }
 
 
@@ -49,8 +58,6 @@ function loadProgram(program)
 	}
 	pcb.state = _READY;
 	// Update the list of loaded programs and the memory display
-	_ProgramList[pcb.pid] = opCodes;
-	_ReadyQueue[pcb.pid] = pcb;
+	_ResidentList[pcb.pid] = pcb;
 	updateMemoryDisplay();
-	updateReadyQueueDisplay(pcb.pid);
 }

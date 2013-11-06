@@ -29,12 +29,25 @@ function Cpu() {
         this.Zflag = 0;      
         this.isExecuting = false;  
     };
+    
+    this.update = function(pc, acc, xreg, yreg, zflag) // Used for Context Switching
+    {
+    	this.PC    = pc;
+        this.Acc   = acc;
+        this.Xreg  = xreg;
+        this.Yreg  = yreg;
+        this.Zflag = zflag;
+    }
         
     this.cycle = function() {
         krnTrace("CPU cycle");
-        
-        // Executes current instruction
+        if (_CpuScheduler.cycle > _Quantum)
+        {
+        	_CpuScheduler.contextSwitch();
+        }
+        // Executes current instruction, increments scheduler cycle, updates CPU Display
         this.execute(getData(this.PC));
+        _CpuScheduler.cycle++;
         updateCPUDisplay();
     };
     
@@ -178,6 +191,8 @@ function noOperation()
 // Break
 function systemBreak()
 {
+	_CpuScheduler.currentProcess.update(_TERMINATED, _CPU.PC, _CPU.Acc, _CPU.Xreg, _CPU.Yreg, _CPU.Zflag);
+	if (_ReadyQueue
 	_CPU.isExecuting = false;
 	_StdIn.putText("Process finished.");
 	_ConsoleTextHistory.push("Process finished");
