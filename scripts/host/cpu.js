@@ -239,7 +239,10 @@ function systemBreak()
 	_StdIn.putText("Process finished.");
 	_ConsoleTextHistory.push("Process finished");
 	_StdIn.advanceLine();
-	//_OsShell.putPrompt();
+	if (_ReadyQueue.getSize() === 0)
+	{
+		_OsShell.putPrompt();
+	}
 }
 
 // Compare a byte in memory to the X reg
@@ -335,8 +338,8 @@ function systemCall()
 			str += String.fromCharCode(code);
 			data = getData(++adress);
 		}
-		_StdIn.putText(str);
-		_ConsoleTextHistory.push(str);
+		_StdIn.putText(str.toString());
+		_ConsoleTextHistory.push(str.toString());
 		_StdIn.advanceLine();
 		//_OsShell.putPrompt();
 	}

@@ -153,7 +153,7 @@ function CLIconsole() {
            //   repopulate canvas with new material
            for (var i = 0; i < _ConsoleTextHistory.length; i++)
            {
-               this.putText(_ConsoleTextHistory[i]);
+               this.putText(_ConsoleTextHistory[i].toString());
                this.advanceLine();
            }
        }
