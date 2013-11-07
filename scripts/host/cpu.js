@@ -239,7 +239,7 @@ function systemBreak()
 	_StdIn.putText("Process finished.");
 	_ConsoleTextHistory.push("Process finished");
 	_StdIn.advanceLine();
-	_OsShell.putPrompt();
+	//_OsShell.putPrompt();
 }
 
 // Compare a byte in memory to the X reg
@@ -320,7 +320,7 @@ function systemCall()
 		_StdIn.putText(_CPU.Yreg.toString());
 		_ConsoleTextHistory.push(_CPU.Yreg);
 		_StdIn.advanceLine();
-		_OsShell.putPrompt();
+		//_OsShell.putPrompt();
 	}
 	else if (_CPU.Xreg === 2)
 	{
@@ -338,7 +338,7 @@ function systemCall()
 		_StdIn.putText(str);
 		_ConsoleTextHistory.push(str);
 		_StdIn.advanceLine();
-		_OsShell.putPrompt();
+		//_OsShell.putPrompt();
 	}
 	_CPU.PC++;
 }

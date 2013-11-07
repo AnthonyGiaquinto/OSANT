@@ -134,15 +134,51 @@ function updateCPUDisplay()
 // Updates Ready Queue Display
 function updateReadyQueueDisplay()
 {
+	// if theres nothing in the ready queue, clear it
 	var readyQueueTable = document.getElementById("readyQueueTable");
-	for (var i = 0; i < _ReadyQueue.getSize(); i++)
+	if (_ReadyQueue.getSize() === 0)
 	{
-       readyQueueTable.rows[i + 1].cells[0].innerHTML = _ReadyQueue.q[i].pid;
-       readyQueueTable.rows[i + 1].cells[1].innerHTML = _ReadyQueue.q[i].state;
-	   readyQueueTable.rows[i + 1].cells[2].innerHTML = _ReadyQueue.q[i].pc;
-	   readyQueueTable.rows[i + 1].cells[3].innerHTML = _ReadyQueue.q[i].acc;
-	   readyQueueTable.rows[i + 1].cells[4].innerHTML = _ReadyQueue.q[i].x;
-	   readyQueueTable.rows[i + 1].cells[5].innerHTML = _ReadyQueue.q[i].y;
-	   readyQueueTable.rows[i + 1].cells[6].innerHTML = _ReadyQueue.q[i].z;
+		for (var i = 1; i < 3; i++)
+		{
+		   readyQueueTable.rows[i].cells[0].innerHTML = "&nbsp";
+           readyQueueTable.rows[i].cells[1].innerHTML = "&nbsp";
+	       readyQueueTable.rows[i].cells[2].innerHTML = "&nbsp";
+	       readyQueueTable.rows[i].cells[3].innerHTML = "&nbsp";
+	       readyQueueTable.rows[i].cells[4].innerHTML = "&nbsp";
+	       readyQueueTable.rows[i].cells[5].innerHTML = "&nbsp";
+	       readyQueueTable.rows[i].cells[6].innerHTML = "&nbsp";
+		}
+       
+	}
+	//if theres one pcb in the ready queue, clear the second slot while updating the first
+	else if (_ReadyQueue.getSize() === 1)
+	{
+		readyQueueTable.rows[1].cells[0].innerHTML = _ReadyQueue.q[0].pid;
+        readyQueueTable.rows[1].cells[1].innerHTML = _ReadyQueue.q[0].state;
+	    readyQueueTable.rows[1].cells[2].innerHTML = _ReadyQueue.q[0].pc;
+	    readyQueueTable.rows[1].cells[3].innerHTML = _ReadyQueue.q[0].acc;
+	    readyQueueTable.rows[1].cells[4].innerHTML = _ReadyQueue.q[0].x;
+	    readyQueueTable.rows[1].cells[5].innerHTML = _ReadyQueue.q[0].y;
+	    readyQueueTable.rows[1].cells[6].innerHTML = _ReadyQueue.q[0].z;
+		readyQueueTable.rows[2].cells[0].innerHTML = "&nbsp";
+        readyQueueTable.rows[2].cells[1].innerHTML = "&nbsp";
+	    readyQueueTable.rows[2].cells[2].innerHTML = "&nbsp";
+	    readyQueueTable.rows[2].cells[3].innerHTML = "&nbsp";
+	    readyQueueTable.rows[2].cells[4].innerHTML = "&nbsp";
+	    readyQueueTable.rows[2].cells[5].innerHTML = "&nbsp";
+	    readyQueueTable.rows[2].cells[6].innerHTML = "&nbsp";
+	}
+	else
+	{
+		for (var i = 0; i < _ReadyQueue.getSize(); i++)
+		{
+       		readyQueueTable.rows[i + 1].cells[0].innerHTML = _ReadyQueue.q[i].pid;
+       		readyQueueTable.rows[i + 1].cells[1].innerHTML = _ReadyQueue.q[i].state;
+	   		readyQueueTable.rows[i + 1].cells[2].innerHTML = _ReadyQueue.q[i].pc;
+	   		readyQueueTable.rows[i + 1].cells[3].innerHTML = _ReadyQueue.q[i].acc;
+	   		readyQueueTable.rows[i + 1].cells[4].innerHTML = _ReadyQueue.q[i].x;
+	   		readyQueueTable.rows[i + 1].cells[5].innerHTML = _ReadyQueue.q[i].y;
+	   		readyQueueTable.rows[i + 1].cells[6].innerHTML = _ReadyQueue.q[i].z;
+		}
 	}
 }
