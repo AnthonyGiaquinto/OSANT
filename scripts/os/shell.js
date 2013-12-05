@@ -103,10 +103,10 @@ function shellInit() {
     sc.function = shellBSOD;
     this.commandList[this.commandList.length] = sc;
     
-    // load
+    // load [priority]
     sc = new ShellCommand();
     sc.command = "load";
-    sc.description = "- Loads the user program into memory.";
+    sc.description = "[priority] - Loads user program into memory.";
     sc.function = shellLoad;
     this.commandList[this.commandList.length] = sc;
     
@@ -544,8 +544,8 @@ function shellBSOD()
 	krnTrapError(".. Gotcha! It's only a test!");
 }
 
-function shellLoad()
-{
+function shellLoad(args)
+{	
 	var result = "";
 	var input = document.getElementById("taProgramInput");
 	var program = input.value;
@@ -560,9 +560,15 @@ function shellLoad()
 		{
 			result = "Cannot load, memory is full.";
 		}
-		else
+		else // We're clear to load. Check if a priority was given and set it to 50 if it wasn't
 		{
-			loadProgram(program); // processControl.js
+			var priority = DEFAULT_PRIORITY; // High arbitrary number that won't interfere with user picks
+			if (args[0])
+			{
+				priority = parseInt(args[0]);
+			}
+			
+			loadProgram(program, priority); // processControl.js
 			result = "Program loaded into memory. PID: " + _PID++;
 		}
 	}
@@ -641,13 +647,13 @@ function shellRunAll()
 		_ConsoleTextHistory.push("No processes to run.");
 	}
 	else
-	{
+	{	
 		for (var i = 0; i < _ResidentList.length; i++)
 		{
 			_ReadyQueue.enqueue(_ResidentList[i]);
 		}
 		// Puts the first process in the ready queue as the active process then starts
-		_CpuScheduler.currentProcess = _ReadyQueue.dequeue();
+		_CpuScheduler.currentProcess = _CpuScheduler.prioritize();//
 		_CpuScheduler.currentProcess.state = _RUNNING;
 		updateReadyQueueDisplay();
 		_CPU.isExecuting = true;
