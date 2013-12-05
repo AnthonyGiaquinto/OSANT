@@ -17,3 +17,10 @@ function FileSystemDeviceDriver()                     // Add or override specifi
     this.isr = krnFileFunctions;
     // "Constructor" code.
 }
+
+function krnFileDriverEntry()
+{
+    // Initialization routine for this.
+    this.status = "loaded";
+    // More?
+}
