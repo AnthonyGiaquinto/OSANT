@@ -41,13 +41,10 @@ function Cpu() {
         
     this.cycle = function() {
         krnTrace("CPU cycle");
-        
-        // Context Switch for Round Robin
-        if (_SchedulingAlgorithm === _RR && _CpuScheduler.cycle > _Quantum)
+        if (_CpuScheduler.cycle > _Quantum)
         {
         	_CpuScheduler.contextSwitch();
         }
-
         // Executes current instruction, increments scheduler cycle, updates CPU Display
         this.execute(getData(this.PC));
         _CpuScheduler.cycle++;
