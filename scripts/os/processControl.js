@@ -4,7 +4,7 @@
 	Contains functions for loading and running programs.
 */
 
-function ProcessControlBlock()
+function ProcessControlBlock(priority)
 {
 	this.pid = _PID;
 	// Sets the Base and Limit based on the current PID which takes up one partition each
@@ -29,6 +29,7 @@ function ProcessControlBlock()
 	this.x = 0;
 	this.y = 0;
 	this.z = 0;
+	this.priority = priority;
 	
 	this.update = function(state, pc, acc, x, y, z) // Updates the state of the process
 	{                                               // Used for Context Switches
@@ -41,11 +42,10 @@ function ProcessControlBlock()
 	}
 }
 
-
-function loadProgram(program)
+function loadProgram(program, priority)
 {
 	// Creates a new PCB and stores the program contents into the array of loaded programs
-	var pcb = new ProcessControlBlock();
+	var pcb = new ProcessControlBlock(priority);
 	var opCodes = program.split(" ");
 	var count = 0;
 	for (var i = pcb.base; i < pcb.limit; i++)

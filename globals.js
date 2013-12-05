@@ -26,6 +26,17 @@ var _RUNNING = "Running";       // Process States
 var _WAITING = "Waiting";       //
 var _TERMINATED = "Terminated"; //
 
+var _RR = "Round Robbin";             //
+var _FCFS = "First Come First Serve"; // Scheduling Algorithms
+var _PRIORITY = "Priority";           //
+var DEFAULT_PRIORITY = 50;
+
+var _MBR = "000";   //
+var _TRACKS = 4;    //
+var _SECTORS = 8;   //
+var _BLOCKS = 8;    //
+var _FILESIZE = 64; //
+ 
 //
 // Global Variables
 //
@@ -39,6 +50,7 @@ var _PartitionSize = 255 // Memory Partition Size
 var _PID = 0;            // Variable to keep track of current PID
 
 var _CpuScheduler = null; // CPU Scheduler Initialized on start button
+var _SchedulingAlgorithm = _FCFS; // Scheduling algorithm (round robin by default)
 var _Quantum = 6; // Round Robin Quantum. Default is 6.
 
 

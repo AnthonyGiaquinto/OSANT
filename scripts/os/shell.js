@@ -103,10 +103,10 @@ function shellInit() {
     sc.function = shellBSOD;
     this.commandList[this.commandList.length] = sc;
     
-    // load
+    // load [priority]
     sc = new ShellCommand();
     sc.command = "load";
-    sc.description = "- Loads the user program into memory.";
+    sc.description = "[priority] - Loads user program into memory.";
     sc.function = shellLoad;
     this.commandList[this.commandList.length] = sc;
     
@@ -150,6 +150,67 @@ function shellInit() {
     sc.command = "quantum";
     sc.description = "<int> - Sets the round robin quantum.";
     sc.function = shellQuantum;
+    this.commandList[this.commandList.length] = sc;
+    
+    // create <filename> - creates the specified file and displays
+    // a message denoting success or failure
+    sc = new ShellCommand();
+    sc.command = "create";
+    sc.description = "<filename> - Creates the file <filename>.";
+    sc.function = shellCreate;
+    this.commandList[this.commandList.length] = sc;
+    
+    // read <filename> - reads and displays the contents of the file
+    // or displays an error message if something went wrong
+    sc = new ShellCommand();
+    sc.command = "read";
+    sc.description = "<filename> - Reads and displays <filename>.";
+    sc.function = shellRead;
+    this.commandList[this.commandList.length] = sc;
+    
+    // write <filename> "data" - writes the data inside the quotes to <filename> and
+    // displays a message denoting success or failure
+    sc = new ShellCommand();
+    sc.command = "write";
+    sc.description = "<filename> \"data\" - Write the data to <filename>.";
+    sc.function = shellWrite;
+    this.commandList[this.commandList.length] = sc;
+    
+    // delete <filename> - removes <filename> from storage and displays a message
+    // denoting success or failure
+    sc = new ShellCommand();
+    sc.command = "delete";
+    sc.description = "<filename> - Removes <filename> from storage.";
+    sc.function = shellDelete;
+    this.commandList[this.commandList.length] = sc;
+    
+    // format - initializes all blocks in all sectors in all tracks and displays
+    // a message denoting success or failure
+    sc = new ShellCommand();
+    sc.command = "format";
+    sc.description = "- Initializes all blocks in all sectors in all tracks.";
+    sc.function = shellFormat;
+    this.commandList[this.commandList.length] = sc;
+    
+    // ls - lists files currently stored on the disk
+    sc = new ShellCommand();
+    sc.command = "ls";
+    sc.description = "- Lists all files currently stored on disk.";
+    sc.function = shellLs;
+    this.commandList[this.commandList.length] = sc;
+    
+    // setschedule [rr, fcfs, priority] - sets the CPU scheduling algorithm
+    sc = new ShellCommand();
+    sc.command = "setschedule";
+    sc.description = "[rr, fcfs, priority] - Set scheduling algorithm.";
+    sc.function = shellSetSchedule;
+    this.commandList[this.commandList.length] = sc;
+    
+    // getschedule - returns the currently selected CPU scheduling algorithm
+    sc = new ShellCommand();
+    sc.command = "getschedule";
+    sc.description = "- Displays current scheduling algorithm.";
+    sc.function = shellGetSchedule;
     this.commandList[this.commandList.length] = sc;
     
     // Display the initial prompt.
@@ -483,8 +544,8 @@ function shellBSOD()
 	krnTrapError(".. Gotcha! It's only a test!");
 }
 
-function shellLoad()
-{
+function shellLoad(args)
+{	
 	var result = "";
 	var input = document.getElementById("taProgramInput");
 	var program = input.value;
@@ -499,9 +560,15 @@ function shellLoad()
 		{
 			result = "Cannot load, memory is full.";
 		}
-		else
+		else // We're clear to load. Check if a priority was given and set it to 50 if it wasn't
 		{
-			loadProgram(program); // processControl.js
+			var priority = DEFAULT_PRIORITY; // High arbitrary number that won't interfere with user picks
+			if (args[0])
+			{
+				priority = parseInt(args[0]);
+			}
+			
+			loadProgram(program, priority); // processControl.js
 			result = "Program loaded into memory. PID: " + _PID++;
 		}
 	}
@@ -580,13 +647,13 @@ function shellRunAll()
 		_ConsoleTextHistory.push("No processes to run.");
 	}
 	else
-	{
+	{	
 		for (var i = 0; i < _ResidentList.length; i++)
 		{
 			_ReadyQueue.enqueue(_ResidentList[i]);
 		}
 		// Puts the first process in the ready queue as the active process then starts
-		_CpuScheduler.currentProcess = _ReadyQueue.dequeue();
+		_CpuScheduler.currentProcess = _CpuScheduler.prioritize();//
 		_CpuScheduler.currentProcess.state = _RUNNING;
 		updateReadyQueueDisplay();
 		_CPU.isExecuting = true;
@@ -613,4 +680,64 @@ function shellQuantum(args)
 	_Quantum = quantum;
 	_StdIn.putText("Round Robin Quantum set to " + _Quantum);
 	_ConsoleTextHistory.push("Round Robin Quantum set to " + _Quantum);
+}
+
+function shellCreate(args)
+{
+
+}
+
+function shellRead(args)
+{
+
+}
+
+function shellWrite(args)
+{
+
+}
+
+function shellDelete(args)
+{
+
+}
+
+function shellFormat()
+{
+
+}
+
+function shellLs()
+{
+
+}
+
+function shellSetSchedule(args)
+{
+	var algorithm = args[0];
+	switch(algorithm)
+	{
+		case "rr":
+			_SchedulingAlgorithm = _RR;
+			break;
+		case "fcfs":
+			_SchedulingAlgorithm = _FCFS;
+			break;
+		case "priority":
+			_SchedulingAlgorithm = _PRIORITY;
+			break;
+		default:
+			_StdIn.putText("Unrecognized scheduling algorithm.");
+			_ConsoleTextHistory.push("Unrecognized scheduling algorithm.");
+			return;
+	}
+	
+	_StdIn.putText("CPU scheduling algorithm set to: " + _SchedulingAlgorithm);
+	_ConsoleTextHistory.push("CPU scheduling algorithm set to: " + _SchedulingAlgorithm);
+}
+
+function shellGetSchedule()
+{
+	_StdIn.putText("Current CPU Scheduling algorithm: " + _SchedulingAlgorithm);
+	_ConsoleTextHistory.push("Current CPU Scheduling algorithm: " + _SchedulingAlgorithm);
 }
