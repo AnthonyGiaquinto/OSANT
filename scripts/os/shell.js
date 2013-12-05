@@ -152,6 +152,67 @@ function shellInit() {
     sc.function = shellQuantum;
     this.commandList[this.commandList.length] = sc;
     
+    // create <filename> - creates the specified file and displays
+    // a message denoting success or failure
+    sc = new ShellCommand();
+    sc.command = "create";
+    sc.description = "<filename> - Creates the file <filename>.";
+    sc.function = shellCreate;
+    this.commandList[this.commandList.length] = sc;
+    
+    // read <filename> - reads and displays the contents of the file
+    // or displays an error message if something went wrong
+    sc = new ShellCommand();
+    sc.command = "read";
+    sc.description = "<filename> - Reads and displays <filename>.";
+    sc.function = shellRead;
+    this.commandList[this.commandList.length] = sc;
+    
+    // write <filename> "data" - writes the data inside the quotes to <filename> and
+    // displays a message denoting success or failure
+    sc = new ShellCommand();
+    sc.command = "write";
+    sc.description = "<filename> \"data\" - Write the data to <filename>.";
+    sc.function = shellWrite;
+    this.commandList[this.commandList.length] = sc;
+    
+    // delete <filename> - removes <filename> from storage and displays a message
+    // denoting success or failure
+    sc = new ShellCommand();
+    sc.command = "delete";
+    sc.description = "<filename> - Removes <filename> from storage.";
+    sc.function = shellDelete;
+    this.commandList[this.commandList.length] = sc;
+    
+    // format - initializes all blocks in all sectors in all tracks and displays
+    // a message denoting success or failure
+    sc = new ShellCommand();
+    sc.command = "format";
+    sc.description = "- Initializes all blocks in all sectors in all tracks.";
+    sc.function = shellFormat;
+    this.commandList[this.commandList.length] = sc;
+    
+    // ls - lists files currently stored on the disk
+    sc = new ShellCommand();
+    sc.command = "ls";
+    sc.description = "- Lists all files currently stored on disk.";
+    sc.function = shellLs;
+    this.commandList[this.commandList.length] = sc;
+    
+    // setschedule [rr, fcfs, priority] - sets the CPU scheduling algorithm
+    sc = new ShellCommand();
+    sc.command = "setschedule";
+    sc.description = "[rr, fcfs, priority] - Set scheduling algorithm.";
+    sc.function = shellSetSchedule;
+    this.commandList[this.commandList.length] = sc;
+    
+    // getschedule - returns the currently selected CPU scheduling algorithm
+    sc = new ShellCommand();
+    sc.command = "getschedule";
+    sc.description = "- Displays current scheduling algorithm.";
+    sc.function = shellGetSchedule;
+    this.commandList[this.commandList.length] = sc;
+    
     // Display the initial prompt.
     this.putPrompt();
 }
@@ -613,4 +674,64 @@ function shellQuantum(args)
 	_Quantum = quantum;
 	_StdIn.putText("Round Robin Quantum set to " + _Quantum);
 	_ConsoleTextHistory.push("Round Robin Quantum set to " + _Quantum);
+}
+
+function shellCreate(args)
+{
+
+}
+
+function shellRead(args)
+{
+
+}
+
+function shellWrite(args)
+{
+
+}
+
+function shellDelete(args)
+{
+
+}
+
+function shellFormat()
+{
+
+}
+
+function shellLs()
+{
+
+}
+
+function shellSetSchedule(args)
+{
+	var algorithm = args[0];
+	switch(algorithm)
+	{
+		case "rr":
+			_SchedulingAlgorithm = _RR;
+			break;
+		case "fcfs":
+			_SchedulingAlgorithm = _FCFS;
+			break;
+		case "priority":
+			_SchedulingAlgorithm = _PRIORITY;
+			break;
+		default:
+			_StdIn.putText("Unrecognized scheduling algorithm.");
+			_ConsoleTextHistory.push("Unrecognized scheduling algorithm.");
+			return;
+	}
+	
+	_StdIn.putText("CPU scheduling algorithm set to: " + _SchedulingAlgorithm);
+	_ConsoleTextHistory.push("CPU scheduling algorithm set to: " + _SchedulingAlgorithm);
+}
+
+function shellGetSchedule()
+{
+	_StdIn.putText("Current CPU Scheduling algorithm: " + _SchedulingAlgorithm);
+	_ConsoleTextHistory.push("Current CPU Scheduling algorithm: " + _SchedulingAlgorithm);
 }
