@@ -31,6 +31,11 @@ var _FCFS = "First Come First Serve"; // Scheduling Algorithms
 var _PRIORITY = "Priority";           //
 var DEFAULT_PRIORITY = 50;
 
+var _MBR = "000";
+var _TRACKS = 4;
+var _SECTORS = 8;
+var _BLOCKS = 8;
+
 //
 // Global Variables
 //
